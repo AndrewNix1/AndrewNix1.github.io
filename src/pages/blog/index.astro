@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getPublishedPosts } from "../../lib/posts";
+
+const posts = await getPublishedPosts();
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
+---
+
+<BaseLayout title="博客" description="关于学习、项目与生活的文章。">
+  <section class="page-intro blog-intro">
+    <div>
+      <p class="eyebrow">WRITING & NOTES</p>
+      <h1>把思考写下来。</h1>
+    </div>
+    <p>
+      这里是长期更新的文章归档。内容可以是技术笔记、项目复盘，
+      也可以是一次阅读或生活中的新发现。
+    </p>
+  </section>
+
+  <div class="blog-layout">
+    <section class="blog-feed" aria-label="全部文章">
+      <div class="archive-count">{String(posts.length).padStart(2, "0")} ARTICLES</div>
+      <div class="post-list">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    </section>
+
+    <aside class="blog-aside float-card">
+      <p class="eyebrow">INDEX</p>
+      <h2>文章主题</h2>
+      <div class="tag-cloud">
+        {tags.length > 0 ? tags.map((tag) => <span>{tag}</span>) : <span>暂无标签</span>}
+      </div>
+      <div class="aside-rule"></div>
+      <p class="aside-note">
+        这个列表会随着 Markdown 文章自动更新，不需要手动维护目录。
+      </p>
+    </aside>
+  </div>
+</BaseLayout>

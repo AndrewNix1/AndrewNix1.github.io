@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const projects = [
+  {
+    index: "01",
+    title: "这个个人网站",
+    description:
+      "一个同时承载个人介绍、项目展示与长期写作的数字空间，使用 Astro 与 GitHub Pages。",
+    status: "持续完善",
+    tags: ["Astro", "GitHub Pages", "Design"],
+    href: "/about/",
+  },
+  {
+    index: "02",
+    title: "你的下一个项目",
+    description:
+      "把这里替换成你真实完成或正在推进的项目。最好写清楚问题、过程和你的具体贡献。",
+    status: "等待填写",
+    tags: ["Project", "Build"],
+    href: "/about/",
+  },
+];
+---
+
+<BaseLayout title="项目" description="正在构建的项目与作品。">
+  <section class="page-intro">
+    <p class="eyebrow">SELECTED WORK</p>
+    <h1>做过的事，<br />正在做的事。</h1>
+    <p>
+      项目页不需要很多。两三个说明清楚、能体现你思考方式的项目，
+      往往比一长串名称更有说服力。
+    </p>
+  </section>
+
+  <section class="project-list" aria-label="项目列表">
+    {
+      projects.map((project) => (
+        <a class="project-card float-card" href={project.href}>
+          <div class="project-index">{project.index}</div>
+          <div class="project-main">
+            <div class="project-title-row">
+              <h2>{project.title}</h2>
+              <span>{project.status}</span>
+            </div>
+            <p>{project.description}</p>
+            <div class="tag-cloud">
+              {project.tags.map((tag) => <span>{tag}</span>)}
+            </div>
+          </div>
+          <span class="project-arrow" aria-hidden="true">↗</span>
+        </a>
+      ))
+    }
+  </section>
+</BaseLayout>

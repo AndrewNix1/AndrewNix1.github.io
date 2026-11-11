@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../config";
+---
+
+<BaseLayout
+  title="关于"
+  description={`了解 ${site.name}，以及这个个人网站背后的想法。`}
+>
+  <section class="page-intro">
+    <p class="eyebrow">ABOUT ME</p>
+    <h1>关于我，<br />也关于这里。</h1>
+    <p>
+      这是你的个人介绍页。建议用具体、诚实的语言说明你是谁、关注什么，
+      以及别人可以在这里获得什么。
+    </p>
+  </section>
+
+  <div class="content-grid">
+    <article class="prose-card float-card">
+      <h2>你好，我是 {site.name}</h2>
+      <p>
+        我目前正在学习和探索新的领域。这个网站是我公开的数字花园：
+        它不会只陈列完成品，也会保留过程、疑问和尚未成形的想法。
+      </p>
+      <p>
+        你可以在这里找到我的文章与项目。如果你对某些内容有共鸣，
+        欢迎通过 GitHub 或邮件和我交流。
+      </p>
+
+      <h2>我在做什么</h2>
+      <ul>
+        <li>持续学习并记录真正有启发的内容。</li>
+        <li>把想法做成可以访问、可以使用的小项目。</li>
+        <li>练习更准确、更简洁、更有温度的表达。</li>
+      </ul>
+
+      <h2>这个网站</h2>
+      <p>
+        网站使用 Astro 构建，文章以 Markdown 编写，通过 GitHub Pages 发布。
+        它既是一个个人主页，也是一个长期更新的博客。
+      </p>
+
+      <h2>联系我</h2>
+      <p>
+        {
+          site.email && (
+            <>
+              邮箱：<a href={`mailto:${site.email}`}>{site.email}</a><br />
+            </>
+          )
+        }
+        GitHub：<a href={site.github} target="_blank" rel="noreferrer">{site.github}</a>
+      </p>
+    </article>
+
+    <aside class="fact-card float-card">
+      <p class="eyebrow">QUICK FACTS</p>
+      <dl>
+        <div>
+          <dt>身份</dt>
+          <dd>Learner / Builder</dd>
+        </div>
+        <div>
+          <dt>兴趣</dt>
+          <dd>技术、学习、工作</dd>
+        </div>
+        <div>
+          <dt>正在做</dt>
+          <dd>{site.status}</dd>
+        </div>
+        <div>
+          <dt>坐标</dt>
+          <dd>{site.location}</dd>
+        </div>
+      </dl>
+    </aside>
+  </div>
+</BaseLayout>

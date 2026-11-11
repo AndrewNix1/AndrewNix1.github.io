@@ -1,0 +1,37 @@
+---
+import { site } from "../config";
+
+interface Props {
+  postCount?: number;
+}
+
+const { postCount = 0 } = Astro.props;
+---
+
+<section class="profile-card float-card" aria-label="个人简介">
+  <div class="avatar" aria-hidden="true">{site.initials}</div>
+  <p class="eyebrow">ABOUT THIS SPACE</p>
+  <h2>{site.name}</h2>
+  <p class="profile-copy">
+    {site.tagline}
+    这里收集我认真做过的事、正在学习的内容，以及偶尔冒出来的想法。
+  </p>
+
+  <dl class="profile-stats">
+    <div>
+      <dt>文章</dt>
+      <dd>{postCount}</dd>
+    </div>
+    <div>
+      <dt>坐标</dt>
+      <dd>{site.location}</dd>
+    </div>
+  </dl>
+
+  <div class="profile-links">
+    <a href="/about/">关于我 <span aria-hidden="true">→</span></a>
+    <a href={site.github} target="_blank" rel="noreferrer">
+      GitHub <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</section>

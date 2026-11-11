@@ -1,0 +1,24 @@
+---
+const seasons = [
+  { value: "spring", label: "春", hint: "春日主题" },
+  { value: "summer", label: "夏", hint: "夏日主题" },
+  { value: "autumn", label: "秋", hint: "秋日主题" },
+  { value: "winter", label: "冬", hint: "冬日主题" },
+];
+---
+
+<div class="season-switcher" role="group" aria-label="切换季节主题">
+  {
+    seasons.map((season) => (
+      <button
+        class="season-option"
+        type="button"
+        data-season-choice={season.value}
+        aria-label={season.hint}
+        title={season.hint}
+      >
+        {season.label}
+      </button>
+    ))
+  }
+</div>

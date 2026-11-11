@@ -1,0 +1,75 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../config";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = site.title,
+  description = site.description,
+} = Astro.props;
+
+const pageTitle = title === site.title ? title : `${title} · ${site.title}`;
+---
+
+<!doctype html>
+<html lang="zh-CN" data-season="autumn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f3eee2" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <title>{pageTitle}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem("season-theme");
+          const valid = ["spring", "summer", "autumn", "winter"];
+          const month = new Date().getMonth() + 1;
+          const seasonal =
+            month >= 3 && month <= 5
+              ? "spring"
+              : month >= 6 && month <= 8
+                ? "summer"
+                : month >= 9 && month <= 11
+                  ? "autumn"
+                  : "winter";
+
+          document.documentElement.dataset.season =
+            saved && valid.includes(saved) ? saved : seasonal;
+        } catch {
+          // Keep the autumn fallback when browser storage is unavailable.
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="season-scene" aria-hidden="true">
+      <div class="season-glow"></div>
+      <div id="season-particles" class="season-particles"></div>
+    </div>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <div class="page-shell">
+      <Header />
+      <main class="site-main">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+    <script>
+      import "../scripts/enhancements";
+    </script>
+  </body>
+</html>

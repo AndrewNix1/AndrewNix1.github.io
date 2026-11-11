@@ -1,0 +1,55 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedPosts } from "../../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const formattedDate = new Intl.DateTimeFormat("zh-CN", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}).format(post.data.pubDate);
+const tocHeadings = headings.filter((heading) => heading.depth === 2);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="article-shell">
+    <header class="article-header">
+      <a class="back-link" href="/blog/">← 返回文章列表</a>
+      <div class="article-meta">
+        <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+        <span>{post.data.tags.join(" · ")}</span>
+      </div>
+      <h1>{post.data.title}</h1>
+      <p class="article-description">{post.data.description}</p>
+    </header>
+
+    <div class="article-layout">
+      <div class="article-prose">
+        <Content />
+      </div>
+
+      {
+        tocHeadings.length > 1 && (
+          <aside class="article-toc">
+            <p class="eyebrow">ON THIS PAGE</p>
+            <nav aria-label="文章目录">
+              {tocHeadings.map((heading) => (
+                <a href={`#${heading.slug}`}>{heading.text}</a>
+              ))}
+            </nav>
+          </aside>
+        )
+      }
+    </div>
+  </article>
+</BaseLayout>
